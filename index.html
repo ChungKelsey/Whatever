@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My AR.js Demo</title>
+
+  <!-- 引入 A-Frame 和 AR.js -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    body, html { margin: 0; overflow: hidden; }
+    .hint { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,.6); color: white; text-align: center; padding: 8px; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="hint">请允许相机权限，然后将镜头对准你的自定义标记</div>
+
+  <a-scene
+    vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true; antialias: true;"
+    embedded
+    arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false;"
+  >
+
+    <!-- 预加载你的 3D 模型 -->
+    <a-assets>
+      <!-- 假设你已把 gazebo.zip 解压，里面有 gazebo.glb -->
+      <a-asset-item id="model" src="assets/gazebo.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- 使用你上传的 .patt 文件 -->
+    <a-marker type="pattern" url="assets/pattern-marker.patt">
+      <!-- 显示你的模型 -->
+      <a-entity gltf-model="#model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5"></a-entity>
+
+      <!-- 光照 -->
+      <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+      <a-entity light="type: directional; intensity: 0.6" position="1 1 0"></a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
